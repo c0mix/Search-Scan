@@ -418,7 +418,7 @@ class ScannerInterface(ness6rest.Scanner):
             creds.append(credentials.SshPublicKey(username=Public.certUser, private_key_filename=Public.file,
                                                   private_key_passphrase=Public.certPass))
         if len(creds)==0:
-            print('Warning: no crdential provided, '
+            print('Warning: no credentials provided, '
                   'test will be launched anyway but local security checks will be disabled')
 
         return creds
@@ -699,6 +699,7 @@ class Engine(object):
         Scanner = ScannerInterface(Public.nessusHost, Public.nessusLogin, Public.nessusPassword, insecure=True)
         if Public.file != '':
             Scanner.upload(upload_file=Public.file, file_contents="")
+        print("Building Policy, please wait...")
         Scanner.policy_add(name=Public.nessusPolicyName, plugins=plugin,
                                 credentials=Scanner.buildCredential(Public), template='advanced' )
         Scanner.scan_add(targets=Public.nessusTarget, name=Public.nessusScanName)
