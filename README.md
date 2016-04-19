@@ -57,6 +57,15 @@ After this operation you need to add the collection "cveplug" that will be used 
 
 If you have added the <mongodb installation dir>/bin to the PATH environment variable, you can just type mongo instead of ./bin/mongo.
 
+3. To switch databases, issue the use <db>
+
+		use cvedb
+
+4. Finally create the "cveplug" collection:
+	
+		db.createCollection("cveplug")
+
+
 Databases and collections
 -------------------------
 
@@ -95,6 +104,7 @@ and it's usually only required when new attributes parsing are added in cve-sear
 
 Usage
 -----
+0. Fire up mongoDB and Nessus! 
 
 1. Fill the configuration file with your parameters:
     * Nessus connection parameters (mandatory)
