@@ -691,12 +691,20 @@ class ScannerInterface(ness6rest.Scanner):
 class Engine(object):
 
     def __init__(self, publicInterface):
-        #print('Welcome in Search & Scan Software, by Lorenzo Comi')
+        print('Welcome in Search & Scan Software')
         Public = publicInterface
-        DB = DbInterface(url=Public.mongoHost, port=Public.mongoPort, category=Public.category)
+        try:
+            DB = DbInterface(url=Public.mongoHost, port=Public.mongoPort, category=Public.category)
+        except MyError as e:
+            print('DB connection error!')
+            print(e)
         cveList = DB.getCve(time=Public.time, cvss=Public.cvss)
         plugin = DB.getPlugin(DB, cveList) #plugin e' una stringa
-        Scanner = ScannerInterface(Public.nessusHost, Public.nessusLogin, Public.nessusPassword, insecure=True)
+        try:
+            Scanner = ScannerInterface(Public.nessusHost, Public.nessusLogin, Public.nessusPassword, insecure=True)
+        except MyError as e:
+            print('Scanner connection error!')
+            print(e)
         if Public.file != '':
             Scanner.upload(upload_file=Public.file, file_contents="")
         print("Building Policy, please wait...")
@@ -707,15 +715,18 @@ class Engine(object):
         Public.outputs(Scanner)
         Public.certification()
 
-
-
-if __name__ == '__main__':
+def main():
     try:
         parser = argparse.ArgumentParser(description='This is a program by Lorenzo Comi, type -i and insert .conf file')
         parser.add_argument('-i', '--input', help='Input file name', required=True)
         args = parser.parse_args()
         Public = PublicInterface(args.input)
+
     except MyError as e:
         print(e.args)
+
+
+if __name__ == '__main__':
+    main()
 
 
