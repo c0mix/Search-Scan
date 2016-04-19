@@ -47,15 +47,13 @@ Indexing all the database with fulltext.py is necessary if you want search for "
 
 After this operation you need to add the collection "cveplug" that will be used as a cache for Nessus Plug-in ID.
 
-1. At a prompt in a terminal window (or a command prompt for Windows), go to your <mongodb installation dir>:
+1. At a prompt in a terminal window (or a command prompt for Windows), go to your mongodb installation directory:
 	
 		cd <mongodb installation dir>
     
 2. Type ./bin/mongo to start mongo:
 	
 		./bin/mongo
-
-If you have added the <mongodb installation dir>/bin to the PATH environment variable, you can just type mongo instead of ./bin/mongo.
 
 3. To switch databases, issue the use <db>
 
@@ -104,7 +102,7 @@ and it's usually only required when new attributes parsing are added in cve-sear
 
 Usage
 -----
-0. Fire up mongoDB and Nessus! 
+0. Fire-up mongoDB and Nessus! 
 
 1. Fill the configuration file with your parameters:
     * Nessus connection parameters (mandatory)
@@ -115,6 +113,6 @@ Usage
 
 2. Use the following command to launch the script:
 
-    $ python3 Search-scan.py -i configurazione.conf
+    $ python3 Search-scan.py -i <configurazione.conf>
 
 The Outputs will be saved in the "Outputs" folder
