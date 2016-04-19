@@ -43,7 +43,19 @@ For the initial run, you need to populate the CVE database by running the cve-se
 
 It will fetch all the existing XML files from the Common Vulnerabilities
 and Exposures database and the Common Platform Enumeration.
-Indexing all the database with fulltext.py is necessary if you want search for "openstack" or other text-based vulnerability name. 
+Indexing all the database with fulltext.py is necessary if you want search for "openstack" or other text-based vulnerability name.
+
+After this operation you need to add the collection "cveplug" that will be used as a cache for Nessus Plug-in ID.
+
+1. At a prompt in a terminal window (or a command prompt for Windows), go to your <mongodb installation dir>:
+	
+		cd <mongodb installation dir>
+    
+2. Type ./bin/mongo to start mongo:
+	
+		./bin/mongo
+
+If you have added the <mongodb installation dir>/bin to the PATH environment variable, you can just type mongo instead of ./bin/mongo.
 
 Databases and collections
 -------------------------
@@ -52,6 +64,7 @@ The MongoDB database is called cvedb and there are 10 collections:
 
 * cves (Common Vulnerabilities and Exposure items) - source NVD NIST
 * cpe (Common Platform Enumeration items) - source NVD NIST
+* cveplug (Nessus plugin cache) - custom collection added before
 * vendor (Official Vendor Statements on CVE Vulnerabilities) - source NVD NIST
 * cwe (Common Weakness Enumeration items) - source NVD NIST
 * capec (Common Attack Pattern Enumeration and Classification) - source NVD NIST
