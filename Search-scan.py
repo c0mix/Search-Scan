@@ -158,12 +158,13 @@ class PublicInterface(object):
                         print("Certification not possible: plugin %s return a positive match!"
                               %v.get('plugin_name'))
                         noCert = True
-                    else:
-                        print("No vulnerability found on the target, certification ok!")
                         
         else:
             print('Error, no target found in report!')
             return False
+        
+        if not noCert:
+            print("No vulnerability found on the target, certification ok!") 
         
         return noCert
 
