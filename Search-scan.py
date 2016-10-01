@@ -150,19 +150,22 @@ class PublicInterface(object):
         nessusfile = 'Outputs/Scan_%s_%s_%s.nessus' % (self.category, self.timestamp, self.nessusTarget)
         rpt = dotnessus_parser.Report()
         rpt.parse(nessusfile)
+        noCert = False
         if len(rpt.targets) is not 0:
             for t in rpt.targets:
                 for v in t.vulns:
                     if v.get('risk_factor') != 'None':
                         print("Certification not possible: plugin %s return a positive match!"
                               %v.get('plugin_name'))
-                        return True
+                        noCert = True
                     else:
                         print("No vulnerability found on the target, certification ok!")
-                        return False
+                        
         else:
             print('Error, no target found in report!')
             return False
+        
+        return noCert
 
 class MyError(Exception):
     pass
