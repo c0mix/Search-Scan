@@ -77,8 +77,9 @@ class PublicInterface(object):
         self.nessusHost = Config.get(section='nessus', option='host')
         self.nessusLogin = Config.get(section='nessus', option='login')
         self.nessusPassword = Config.get(section='nessus', option='password')
-        self.nessusPolicyName = 'Test_Policy_%s' % self.category
-        self.nessusScanName = 'Scan_%s' % self.category
+        self.timestamp = int(time.time())
+        self.nessusPolicyName = 'Policy_%s_%s' % (self.category, self.timestamp)
+        self.nessusScanName = 'Scan_%s_%s' % (self.category, self.timestamp)
         self.nessusTarget = Config.get(section='nessus', option='Target')
         self.sshUser = Config.get(section='credentials', option='ssh_user')
         self.sshPassword = Config.get(section='credentials', option='ssh_pass')
@@ -130,13 +131,13 @@ class PublicInterface(object):
         Outputs managment method
         '''
 
-        file = open('Outputs/Report%s_%s.txt' % (self.category, self.nessusTarget), 'w')
+        file = open('Outputs/Report_%s_%s_%s.txt' % (self.category, self.nessusTarget, self.timestamp), 'w')
         original = sys.stdout
         sys.stdout = Tee(sys.stdout, file)
         Scan.scan_results()
         file.close()
         sys.stdout = original
-        content = open('Outputs/scan%s_%s.nessus' % (self.category, self.nessusTarget), 'w')
+        content = open('Outputs/Scan_%s_%s_%s.nessus' % (self.category, self.timestamp, self.nessusTarget), 'w')
         content.write(Scan.download_scan(export_format='nessus'))
         content.close()
 
@@ -146,7 +147,7 @@ class PublicInterface(object):
         Evaluation of the correct certification requirements method
         '''
 
-        nessusfile = 'Outputs/scan%s_%s.nessus' % (self.category, self.nessusTarget)
+        nessusfile = 'Outputs/Scan_%s_%s_%s.nessus' % (self.category, self.timestamp, self.nessusTarget)
         rpt = dotnessus_parser.Report()
         rpt.parse(nessusfile)
         if len(rpt.targets) is not 0:
